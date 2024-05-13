@@ -23,7 +23,6 @@ class UserRepository {
     const sql = "SELECT id, password FROM users WHERE email=?";
     const values = [auth.email];
     const result: any = await db.execute(sql, values);
-    console.log(result);
     
     if (result[0].length > 0) {
       const user = result[0][0];
@@ -57,7 +56,6 @@ class UserRepository {
 
       if (isPasswordValid) {
         const hashedPassword = await generateHash(changePassword.newPassword);
-        console.log(hashedPassword);
 
         await this.updatePassword(hashedPassword);
 

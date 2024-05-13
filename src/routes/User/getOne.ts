@@ -1,8 +1,9 @@
 import express from 'express';
-import getOneController from '../../controllers/User/getById-controller';
+import getOneController from '../../controllers/User/profile-controller';
+import validateTokenMiddelware from '../../middleware/validateTokenMiddelware';
 
 const router = express.Router();
 
-router.get('/', getOneController);
+router.get('/', validateTokenMiddelware, getOneController);
 
 export default router;

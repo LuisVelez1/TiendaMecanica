@@ -1,4 +1,3 @@
-import  bcrypt  from 'bcryptjs';
 import User from "../../Dto/UserDto";
 import ChangePassword from "../../Dto/changePasswordDto";
 import generateHash from "../../helpers/generateHash";

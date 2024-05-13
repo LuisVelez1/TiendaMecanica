@@ -17,12 +17,13 @@ let auth = async (req: Request, res: Response) =>{
         if(login.logged) { //Validacion de que los campos son correctos
             const userId = login.userId; 
             const token = generateToken({ id: userId } , process.env.JWT_SECRET || "secret", 10); //Se genera el token y se firma con la variable de entorno
-            setTokenCookie(res, token); //Se guarda el token en una cookie
+            // setTokenCookie(res, token); //Se guarda el token en una cookie
 
             //VALIDACIONES
             return res.status(200).json({
                 status: login.status,
                 token: token //Se muestra el token 
+            
             });
         }
         return res.status(401).json({

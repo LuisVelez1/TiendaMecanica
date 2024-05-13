@@ -1,4 +1,3 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
 import UserRepository from "../../repositories/User/UserRepository";
 import ChangePassword from "../../Dto/changePasswordDto";
@@ -6,15 +5,21 @@ import generateHash from "../../helpers/generateHash";
 
 let changePassword = async (req: Request, res: Response) => {
   try {
-    // Accede a la cookie 'token'
-    const token = req.cookies.token;
-    if (!token) {
-      return res.status(401).json("Access denied");
+    // // Accede a la cookie 'token'
+    // const token = req.cookies.token;
+    // if (!token) {
+    //   return res.status(401).json("Access denied");
+    // }
+    // // Verifica el token y obtén el payload
+    // const payload = jwt.verify(token, process.env.JWT_SECRET || "secret") as JwtPayload;
+    // // Accede al valor 'id' dentro del payload
+    // const id = payload.data.id;
+
+    const id = req.body.id;
+
+    if(!id){
+      return res.status(401).json('Access Denied');
     }
-    // Verifica el token y obtén el payload
-    const payload = jwt.verify(token, process.env.JWT_SECRET || "secret") as JwtPayload;
-    // Accede al valor 'id' dentro del payload
-    const id = payload.data.id;
 
     const userData: any = new ChangePassword(
       req.body.oldPassword,

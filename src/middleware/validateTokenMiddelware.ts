@@ -1,25 +1,33 @@
-import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-
 dotenv.config();
 
-const tokenValidation = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json("Access denied");
-  }
-  const jwtSecret = process.env.JWT_SECRET; // Obtiene el secreto JWT desde la variable de entorno
-  if (!jwtSecret) {
-    return res.status(500).json("JWT secret not found");
-  }
 
-  try {
-    const PAYLOAD = jwt.verify(token, jwtSecret) as JwtPayload;
-    next();
-  } catch (error) {
-    return res.status(401).json("Invalid token");
-  }
-};
+interface JwtPayload {
+    data: {id: number},
+    exp: number,
+    iat: number
+}
 
-export default tokenValidation;
+const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+  let authorization = req.get('Authorization');    
+  if (authorization) {
+      const token = authorization.split(' ')[1]; 
+             
+      if (!token) {
+          return res.status(401).json({ status: 'No has enviado un token' });
+      }
+      try {
+          let decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;            
+          req.body.id = decoded.data.id;
+          return next(); 
+      } catch (error) {
+          return res.status(403).json({ status: 'No autorizado', error: error });
+      }
+  } else {
+      return res.status(403).json({ status: "Se requiere la cabecera de Autorización" });
+  }
+}
+
+export default validateToken;

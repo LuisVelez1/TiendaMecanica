@@ -7,7 +7,7 @@ const registerValidator = [
     check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
     check('nombres').notEmpty().withMessage('El campo de nombres es requerido'),
     check('apellidos').notEmpty().withMessage('El campo de apellidos es requerido'),
-    check('rol').isIn(['admin', 'client']).withMessage('El rol debe ser "admin" o "client"')
+    check('rol').isIn(['admin', 'cliente']).withMessage('El rol debe ser "admin" o "cliente"')
 ];
 
 // Función middleware para manejar la validación

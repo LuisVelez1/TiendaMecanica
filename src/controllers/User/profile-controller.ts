@@ -8,13 +8,20 @@
     let getOne = async (req: Request, res: Response) => {
     try {
         
-        const idUser = req.body.id;
+        // Accede a la cookie 'token'
+     const token = req.cookies.token;
+    if (!token) {
+     return res.status(401).json("Access denied");
+     }
 
-        if(!idUser){
+    // Accede al valor 'id' dentro del payload
+     const idCli = req.body.id;
+
+        if(!idCli){
             return res.status(401).json('Access Denied');
         }
 
-        const result = await UserRepository.getById(idUser);
+        const result = await UserRepository.getById(idCli);
         
 
     if(result) {                                                

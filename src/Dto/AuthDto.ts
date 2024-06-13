@@ -1,12 +1,12 @@
 class Auth {
     email: string;
-    password: string
+    contrasenia: string
     constructor(
         email: string,
-        password: string
+        contrasenia: string
     ) {
         this.email = email;
-        this.password = password
+        this.contrasenia = contrasenia;
     }
 }
 

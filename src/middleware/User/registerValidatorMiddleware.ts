@@ -3,11 +3,10 @@ import { check, validationResult } from "express-validator";
 
 // Middleware de validación para registro de usuario
 const registerValidator = [
-    check('email').isEmail().withMessage('El email es inválido'),
-    check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
     check('nombres').notEmpty().withMessage('El campo de nombres es requerido'),
     check('apellidos').notEmpty().withMessage('El campo de apellidos es requerido'),
-    check('rol').isIn(['admin', 'cliente']).withMessage('El rol debe ser "admin" o "cliente"')
+    check('email').isEmail().withMessage('El email es inválido'),
+    check('contrasenia').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
 ];
 
 // Función middleware para manejar la validación

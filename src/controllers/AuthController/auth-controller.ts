@@ -11,13 +11,13 @@ let auth = async (req: Request, res: Response) =>{
     try {
         const{
             email, 
-            password
+            contrasenia
         } = req.body; //Campos que se envian junto al formato, en el cuerpo.
-        const login = await UserRepository.authh(new Auth(email, password)); // constante del login donde se intancia la clase login que esta dentro de user repositorio para la validacion de email y password
+        const login = await UserRepository.authh(new Auth(email, contrasenia)); // constante del login donde se intancia la clase login que esta dentro de user repositorio para la validacion de email y password
         if(login.logged) { //Validacion de que los campos son correctos
-            const userId = login.userId; 
-            const token = generateToken({ id: userId } , process.env.JWT_SECRET || "secret", 10); //Se genera el token y se firma con la variable de entorno
-            // setTokenCookie(res, token); //Se guarda el token en una cookie
+            const idCliente = login.idCliente; 
+            const token = generateToken({ id: idCliente } , process.env.JWT_SECRET || "secret", 10); //Se genera el token y se firma con la variable de entorno
+            setTokenCookie(res, token); //Se guarda el token en una cookie
 
             //VALIDACIONES
             return res.status(200).json({

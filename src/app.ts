@@ -3,25 +3,23 @@ import bodyParser from 'body-parser';
 import register from './routes/User/register';
 import auth from './routes/auth';
 import deleteU from './routes/User/deleteU';
-import getAll from './routes/User/getAll';
-import getOne from './routes/User/getOne';
+import profile from './routes/User/profile';
 import changePassword from './routes/User/changePassword';
 import dotenv from "dotenv";
-// import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 
 const app = express().use(bodyParser.json());
 
-// app.use(cookieParser());
+app.use(cookieParser());
 
 
 app.use('/register', register);
 app.use('/auth', auth);
-app.use('/delete', deleteU);
-app.use('/users', getAll);
-app.use('/profile', getOne);
+app.use('/profile', profile);
 app.use('/profile/changePassword', changePassword);
+app.use('/delete', deleteU);
 
 const PORT = process.env.PORT || 10101;
 

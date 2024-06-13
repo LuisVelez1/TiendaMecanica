@@ -6,33 +6,35 @@ import bcrypt, { compare } from "bcryptjs";
 import generateHash from "../../helpers/generateHash";
 
 class UserRepository {
+
+  //REGISTER
   static async add(user: User) {
     const sql =
-      "INSERT INTO users (email, password, nombres, apellidos, rol) VALUES (?, ?, ?, ?, ?)";
+      "INSERT INTO clients (nombres, apellidos, email, contrasenia) VALUES (?, ?, ?, ?)";
     const values = [
-      user.email,
-      user.password,
       user.nombres,
       user.apellidos,
-      user.rol,
+      user.email,
+      user.contrasenia,
     ];
     return db.execute(sql, values);
   }
 
+  //LOGIN
   static async authh(auth: Auth) {
-    const sql = "SELECT id, password FROM users WHERE email=?";
+    const sql = "SELECT idCliente, contrasenia FROM clients WHERE email=?";
     const values = [auth.email];
     const result: any = await db.execute(sql, values);
     
     if (result[0].length > 0) {
       const user = result[0][0];
       const isPasswordValid = await bcrypt.compare(
-        auth.password,
-        user.password
+        auth.contrasenia,
+        user.contrasenia
       );
       if (isPasswordValid) {
         return {
-          userId: user.id,
+          idCliente: user.idCliente,
           logged: true,
           status: "Successful authentication",
         };
@@ -42,8 +44,23 @@ class UserRepository {
     return { logged: false, status: "Invalid username or password" };
   }
 
+  //PROFILE
+  static async getById(idClient: number) {
+    const sql = "SELECT email, nombres, apellidos FROM clients WHERE idCliente = ?";
+    const values = [idClient];
+    return db.execute(sql, values);
+  }
+
+  //CHANGE PASSWORD
   static async changePassword(changePassword: ChangePassword) {
-    const sql = "SELECT password FROM users WHERE id = ?";
+
+    const { id, oldPassword, newPassword } = changePassword;
+
+    if(oldPassword === newPassword){
+      return { message: "La nueva contraseña no puede ser igual a la anterior"}
+    }
+
+    const sql = "SELECT contrasenia FROM clients WHERE idCliente = ?";
     const values = [changePassword.id];
     const result: any = await db.execute(sql, values);
 
@@ -51,7 +68,7 @@ class UserRepository {
       const user = result[0][0];
       const isPasswordValid = await bcrypt.compare(
         changePassword.oldPassword,
-        user.password
+        user.contrasenia
       );
 
       if (isPasswordValid) {
@@ -68,35 +85,18 @@ class UserRepository {
     }
   }
 
-  static getAll() {
-    const sql = "SELECT id, email, nombres, apellidos, rol FROM users";
-    return db.execute(sql);
-  }
-
-  static async getById(id: number) {
-    const sql = "SELECT email, nombres, apellidos, rol FROM users WHERE id = ?";
-    const values = [id];
-    return db.execute(sql, values);
-  }
-
+  //REPOSITORIO QUE SE UTILIZA EN CHANGEPASSWORD, SU FUNCION ES ACTUALIZAR LA CONTRASEÑA EN LA BASE DE DATOS
   static updatePassword(newPassword:any) {
     
-    const sql = "UPDATE users SET password = ? WHERE id = ?";
-    const values = [newPassword.newPassword, newPassword.id];
+    const sql = "UPDATE clients SET contrasenia = ? WHERE idCliente = ?";
+    const values = [newPassword.newPassword, newPassword.idCliente];
 
     return db.execute(sql, values);
   }
 
-  static delete(id: string) {
-    const sql = "DELETE FROM users WHERE id = ?";
-    const values = [id];
-    return db.execute(sql, values);
-  }
-
-  static getByEmail(email: string) {
-    const sql =
-      "SELECT id, password, nombres, apellidos, rol FROM users WHERE email = ?";
-    const values = [email];
+  static delete(idClient: string) {
+    const sql = "DELETE FROM clients WHERE idCliente = ?";
+    const values = [idClient];
     return db.execute(sql, values);
   }
 }

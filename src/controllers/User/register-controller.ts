@@ -6,13 +6,12 @@ import User from "../../Dto/UserDto";
 let register = async (req: Request, res: Response) => {
   try {
     const {
-      email,
-      password,
       nombres,
       apellidos,
-      rol
+      email,
+      contrasenia,
     } = req.body;
-    const registerUser = await UserService.register(new User(email, password, nombres, apellidos, rol ));
+    const registerUser = await UserService.register(new User( nombres, apellidos, email, contrasenia ));
     return res.status(201).send(
       { status: 'Registro exitoso :)' }
     );

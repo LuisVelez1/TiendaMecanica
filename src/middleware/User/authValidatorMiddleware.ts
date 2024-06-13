@@ -4,7 +4,7 @@ import { check, validationResult } from "express-validator";
 // Middleware de validación para autenticación
 const authValidator = [
     check('email').isEmail().withMessage('El email es inválido'),
-    check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres')
+    check('contrasenia').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres')
 ];
 
 // Función middleware para manejar la validación

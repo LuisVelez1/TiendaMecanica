@@ -1,33 +1,30 @@
+// changePassword.ts
+
 import { Request, Response } from "express";
 import UserRepository from "../../repositories/User/UserRepository";
 import ChangePassword from "../../Dto/changePasswordDto";
 import generateHash from "../../helpers/generateHash";
-import jwt, {  JwtPayload } from "jsonwebtoken";
 
-let changePassword = async (req: Request, res: Response) => {
+const changePasswordController = async (req: Request, res: Response) => {
   try {
-     // Accede a la cookie 'token'
-     const token = req.cookies.token;
-     if (!token) {
-        return res.status(401).json("Access denied");
-     }
-    
-    // Accede al valor 'id' dentro del payload
-     const idCli = req.body.id;
-
-    if(!idCli){
-      return res.status(401).json('Access Denied');
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json("Access denied");
     }
 
-    const userData: any = new ChangePassword(
-      req.body.oldPassword,
-      req.body.newPassword,
-      idCli
+    const { id, oldPassword, newPassword } = req.body;
+
+    if (!id || !oldPassword || !newPassword) {
+      return res.status(400).json({ error: "Missing id, oldPassword, or newPassword in request body" });
+    }
+
+    const userData = new ChangePassword(
+      oldPassword,
+      newPassword,
+      id
     );
- 
-    const hashedPassword = await generateHash(userData.newPassword);
-    userData.newPassword = hashedPassword;
-    await UserRepository.updatePassword(userData);
+
+    const result = await UserRepository.changePassword(userData);
 
     return res.status(200).json({
       status: "Password updated successfully",
@@ -40,4 +37,4 @@ let changePassword = async (req: Request, res: Response) => {
   }
 };
 
-export default changePassword;
+export default changePasswordController;

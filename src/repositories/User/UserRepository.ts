@@ -51,52 +51,46 @@ class UserRepository {
     return db.execute(sql, values);
   }
 
-  //CHANGE PASSWORD
   static async changePassword(changePassword: ChangePassword) {
-
     const { id, oldPassword, newPassword } = changePassword;
 
-    if(oldPassword === newPassword){
-      return { message: "La nueva contraseña no puede ser igual a la anterior"}
+    if (oldPassword === newPassword) {
+      throw new Error("La nueva contraseña no puede ser igual a la anterior");
     }
 
     const sql = "SELECT contrasenia FROM clients WHERE idCliente = ?";
-    const values = [changePassword.id];
+    const values = [id];
     const result: any = await db.execute(sql, values);
 
     if (result[0].length > 0) {
       const user = result[0][0];
-      const isPasswordValid = await bcrypt.compare(
-        changePassword.oldPassword,
-        user.contrasenia
-      );
+      const isPasswordValid = await bcrypt.compare(oldPassword, user.contrasenia);
 
       if (isPasswordValid) {
-        const hashedPassword = await generateHash(changePassword.newPassword);
+        const hashedPassword = await generateHash(newPassword);
 
-        await this.updatePassword(hashedPassword);
+        // Aquí se debe llamar al método updatePassword con los parámetros correctos
+        await this.updatePassword(id, hashedPassword);
 
         return { message: "Contraseña cambiada exitosamente" };
       } else {
-        return { message: "Contraseña antigua incorrecta" };
+        throw new Error("Contraseña antigua incorrecta");
       }
     } else {
-      return { message: "Usuario no encontrado" };
+      throw new Error("Usuario no encontrado");
     }
   }
 
-  //REPOSITORIO QUE SE UTILIZA EN CHANGEPASSWORD, SU FUNCION ES ACTUALIZAR LA CONTRASEÑA EN LA BASE DE DATOS
-  static updatePassword(newPassword:any) {
-    
+  // Método para actualizar la contraseña en la base de datos
+  static async updatePassword(idCliente: number, newPassword: string) {
     const sql = "UPDATE clients SET contrasenia = ? WHERE idCliente = ?";
-    const values = [newPassword.newPassword, newPassword.idCliente];
-
+    const values = [newPassword, idCliente];
     return db.execute(sql, values);
   }
 
-  static delete(idClient: string) {
+  static async delete(idCliente: number){
     const sql = "DELETE FROM clients WHERE idCliente = ?";
-    const values = [idClient];
+    const values = [idCliente];
     return db.execute(sql, values);
   }
 }

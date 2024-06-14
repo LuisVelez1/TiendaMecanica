@@ -1,39 +1,33 @@
-    import UserRepository from '../../repositories/User/UserRepository';
-    import { Request, Response } from "express";
-    import dotenv from 'dotenv';
+import { Request, Response } from 'express';
+import UserRepository from '../../repositories/User/UserRepository';
 
-    dotenv.config()
+const profile = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
 
-
-    let getOne = async (req: Request, res: Response) => {
-    try {
-        
-        // Accede a la cookie 'token'
-     const token = req.cookies.token;
+    // Validar si existe el token
     if (!token) {
-     return res.status(401).json("Access denied");
-     }
-
-    // Accede al valor 'id' dentro del payload
-     const idCli = req.body.id;
-
-        if(!idCli){
-            return res.status(401).json('Access Denied');
-        }
-
-        const result = await UserRepository.getById(idCli);
-        
-
-    if(result) {                                                
-            return res.status(200).json(result[0]);
-        } else {
-            return res.status(404).json({
-                error: 'Usuario no encontrado'
-            });
-        }
-        } catch (error) {
-            console.log('error al encontrar el usuario', error);
-        }
+      return res.status(401).json('Access denied');
     }
 
-    export default getOne;
+    // Obtener el id del cuerpo de la solicitud
+    const idCli = req.body.id;
+
+    // Validar si se proporcionó id
+    if (!idCli) {
+      return res.status(401).json('Access Denied');
+    }
+
+    // Buscar el usuario por id
+    const user = await UserRepository.getById(idCli);
+
+    // Si se encontró el usuario, devolverlo
+    return res.status(200).json(user[0]);
+
+  } catch (error) {
+    console.error('Error al buscar usuario:', error);
+    return res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+export default profile;

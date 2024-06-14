@@ -45,9 +45,9 @@ class UserRepository {
   }
 
   //PROFILE
-  static async getById(idClient: number) {
+  static async getById(idCliente: number) {
     const sql = "SELECT email, nombres, apellidos FROM clients WHERE idCliente = ?";
-    const values = [idClient];
+    const values = [idCliente];
     return db.execute(sql, values);
   }
 

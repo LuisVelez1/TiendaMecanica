@@ -88,6 +88,13 @@ class UserRepository {
     return db.execute(sql, values);
   }
 
+  //Obtiene la contraseña mediante el id
+  static async getPasswordById(idCliente: number) {
+    const sql = "SELECT contrasenia FROM clients WHERE idCliente = ?";
+    const values = [idCliente];
+    return db.execute(sql, values);
+  }
+
   static async delete(idCliente: number){
     const sql = "DELETE FROM clients WHERE idCliente = ?";
     const values = [idCliente];

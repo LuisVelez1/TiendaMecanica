@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ChangePassword from "../../Dto/changePasswordDto";
+import ChangePassword from "../../Dto/User/changePasswordDto";
 import UserService from "../../services/User/UserService";
 
 const changePasswordController = async (req: Request, res: Response) => {

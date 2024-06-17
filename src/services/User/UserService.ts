@@ -1,5 +1,5 @@
-import User from "../../Dto/UserDto";
-import ChangePassword from "../../Dto/changePasswordDto";
+import User from "../../Dto/User/UserDto";
+import ChangePassword from "../../Dto/User/changePasswordDto";
 import generateHash from "../../helpers/generateHash";
 import UserRepository from "../../repositories/User/UserRepository";
 import bcrypt from 'bcryptjs';

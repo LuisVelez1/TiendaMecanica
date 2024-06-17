@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import VehicleService from "../../services/Vehicle/VehicleService";
-import UpdateVehicle from "../../Dto/UpdateVehicleDto";
+import UpdateVehicle from "../../Dto/Vehicle/UpdateVehicleDto";
 
 let update = async (req: Request, res: Response) => {
     try {

@@ -1,6 +1,6 @@
 import Auth from "../../Dto/AuthDto";
-import User from "../../Dto/UserDto";
-import ChangePassword from "../../Dto/changePasswordDto";
+import User from "../../Dto/User/UserDto";
+import ChangePassword from "../../Dto/User/changePasswordDto";
 import db from "../../config/config-db";
 import bcrypt, { compare } from "bcryptjs";
 import generateHash from "../../helpers/generateHash";

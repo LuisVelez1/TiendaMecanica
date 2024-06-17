@@ -8,6 +8,7 @@ const db = mysql.createPool({
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
+    Promise: global.Promise,
     connectionLimit: 10,
     queueLimit: 0
   });
@@ -24,4 +25,4 @@ const db = mysql.createPool({
 
   });
   
-export default db.promise()
+export default db.promise();

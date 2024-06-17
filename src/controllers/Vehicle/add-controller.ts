@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import VehicleService from "../../services/Vehicle/VehicleService";
-import Vehicle from "../../Dto/VehicleDto";
+import Vehicle from "../../Dto/Vehicle/VehicleDto";
 
 let add = async (req: Request, res: Response) => {
     const token = req.cookies.token;

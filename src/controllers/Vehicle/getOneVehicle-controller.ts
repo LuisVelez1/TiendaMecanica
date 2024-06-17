@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import VehicleService from "../../services/Vehicle/VehicleService";
-import getOneVehiclee from "../../Dto/getOneVehicleDto";
+import getOneVehiclee from "../../Dto/Vehicle/getOneVehicleDto";
 
 let getOneVehicle = async (req: Request, res: Response) => {
     

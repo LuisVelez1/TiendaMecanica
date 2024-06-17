@@ -12,6 +12,9 @@ import getVehicles from './routes/Vehicle/getAllVehiclesClient';
 import getOneVehicle from './routes/Vehicle/getOneVehicle';
 import updateVehicle from './routes/Vehicle/updateVehicle';
 import deleteVehicle from './routes/Vehicle/delete';
+import registerProduct from './routes/Product/add';
+import shoppingProducts from './routes/Product/registerProductsClient';
+import showAllProducts from './routes/Product/showAll';
 
 
 import dotenv from "dotenv";
@@ -38,6 +41,11 @@ app.use('/Vehicles', getVehicles);
 app.use('/Vehicle', getOneVehicle);
 app.use('/updateVehicle', updateVehicle);
 app.use('/deleteVehicle', deleteVehicle);
+
+//Product
+app.use('/registerProduct', registerProduct);''
+app.use('/shoppingProducts', shoppingProducts);
+app.use('/showProducts', showAllProducts);
 
 
 

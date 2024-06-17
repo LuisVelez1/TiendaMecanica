@@ -2,7 +2,7 @@ import request from 'supertest';
 import express, { Request, Response } from 'express';
 import register from '../../../src/controllers/User/register-controller';
 import UserService from '../../../src/services/User/UserService';
-import User from '../../../src/Dto/UserDto';
+import User from '../../../src/Dto/User/UserDto';
 
 // Crea una instancia de la aplicación de Express
 const app = express();

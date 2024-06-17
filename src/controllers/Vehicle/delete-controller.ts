@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import VehicleService from "../../services/Vehicle/VehicleService";
-import DeleteVehicle from "../../Dto/DeleteVehicleDto";
+import DeleteVehicle from "../../Dto/Vehicle/DeleteVehicleDto";
 
 let deleteVehicle = async (req: Request, res: Response) => {
     try {

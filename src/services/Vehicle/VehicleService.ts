@@ -1,7 +1,7 @@
-import DeleteVehicle from "../../Dto/DeleteVehicleDto";
-import UpdateVehicle from "../../Dto/UpdateVehicleDto";
-import Vehicle from "../../Dto/VehicleDto";
-import getOneVehicle from "../../Dto/getOneVehicleDto";
+import DeleteVehicle from "../../Dto/Vehicle/DeleteVehicleDto";
+import UpdateVehicle from "../../Dto/Vehicle/UpdateVehicleDto";
+import Vehicle from "../../Dto/Vehicle/VehicleDto";
+import getOneVehicle from "../../Dto/Vehicle/getOneVehicleDto";
 import VehicleRepository from "../../repositories/Vehicle/VehicleRepository";
 
 class VehicleService {
